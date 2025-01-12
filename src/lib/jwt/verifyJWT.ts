@@ -3,7 +3,7 @@ import { config } from '@/config';
 
 export const verifyJWT = (token: string): JwtPayload | string => {
   try {
-    const data = jwt.verify(token, config.jwt.secret)
+    const data = jwt.verify(JSON.parse(token), config.jwt.secret)
     return data
   }catch (e) {
     return {
