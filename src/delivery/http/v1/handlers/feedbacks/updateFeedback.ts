@@ -16,6 +16,6 @@ export const buildUpdateFeedback = ({feedbacks}: Params): UpdateFeedback=>{
       statusId: req.body.statusId
     })
 
-    return res.status(200).json(feedback)
+    return res.status(204).json(feedback)
   }
 }

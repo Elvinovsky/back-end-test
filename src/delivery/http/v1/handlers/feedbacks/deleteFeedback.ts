@@ -12,6 +12,6 @@ export const buildDeleteFeedback = ({feedbacks}: Params): DeleteFeedback=>{
       feedbackId: req.params.feedbackId,
     })
 
-    return res.status(200).json(feedback)
+    return res.status(204).json(feedback)
   }
 }
