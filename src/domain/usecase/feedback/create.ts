@@ -14,10 +14,10 @@ export type Create = (
 export const buildCreate = ({ adapter }: UseCaseParams): Create => {
   return async ({id, title, description, categoryId, statusId }) => {
     const user = await adapter.userRepository.get({
-      where: { id:{
-        equals:id
-      } }
+      where: { id: id }
     });
+
+    console.log(user, id)
 
     if (!user) {
       throw new InvalidDataError({

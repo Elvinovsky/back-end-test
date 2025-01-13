@@ -16,6 +16,7 @@ export const buildGet = ({adapter}: UseCaseParams): Get=>{
         id: true,
         authorId: true,
         title: true,
+        upvote_count: true,
         description: true,
         status: true,
         category : true,

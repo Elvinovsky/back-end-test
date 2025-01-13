@@ -4,6 +4,7 @@ import {buildGet, Get} from '@/domain/usecase/feedback/get';
 import {buildUpdate, Update} from '@/domain/usecase/feedback/update';
 import {buildDelete, Delete} from '@/domain/usecase/feedback/delete';
 import {buildListStatusesCategories, ListStatusesCategories} from '@/domain/usecase/feedback/reference/getList';
+import {buildListPosts, ListPosts} from '@/domain/usecase/feedback/list';
 
 export type FeedBackUseCase = {
     createPost: Create;
@@ -11,6 +12,7 @@ export type FeedBackUseCase = {
     deletePost: Delete;
     getPost: Get;
     getReference: ListStatusesCategories
+    listPosts: ListPosts
 }
 
 export const buildAFeedBackUseCase = (params: UseCaseParams): FeedBackUseCase => {
@@ -19,12 +21,13 @@ export const buildAFeedBackUseCase = (params: UseCaseParams): FeedBackUseCase =>
   const updatePost = buildUpdate(params);
   const deletePost = buildDelete(params);
   const getReference = buildListStatusesCategories(params)
-
+  const listPosts = buildListPosts(params)
   return {
     createPost,
     updatePost,
     deletePost,
     getPost,
+    listPosts,
     getReference
   }
 }

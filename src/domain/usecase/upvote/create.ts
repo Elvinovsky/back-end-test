@@ -21,6 +21,12 @@ export const buildCreate = ({ adapter }: UseCaseParams): Create => {
       });
     }
 
+    await adapter.feedBackRepository.update({
+      where: { id: feedbackId },
+      data: {
+        upvote_count: { increment: 1 },
+      },
+    });
 
     return adapter.upvoteRepository.createVoice({
       data: {

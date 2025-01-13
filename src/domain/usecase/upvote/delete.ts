@@ -35,6 +35,13 @@ export const buildDelete = ({adapter}: UseCaseParams): Delete=>{
       });
     }
 
+    await adapter.feedBackRepository.update({
+      where: { id: voice.feedbackId },
+      data: {
+        upvote_count: { decrement: 1 },
+      },
+    });
+
     const result = await adapter.upvoteRepository.deleteVoice({
       where:{
         id:voiceId
