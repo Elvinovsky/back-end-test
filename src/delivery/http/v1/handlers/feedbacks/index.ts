@@ -15,6 +15,7 @@ import {
   buildListStatusesCategories,
   ListStatusesCategories
 } from '@/delivery/http/v1/handlers/feedbacks/ListStatusesCategories';
+import {buildListFeedbacks, ListFeedbacks} from '@/delivery/http/v1/handlers/feedbacks/listFeedbacks';
 
 type Params = Pick<DeliveryParams, 'feedbacks'>;
 
@@ -23,6 +24,7 @@ export type FeedbacksMethods = {
     create: CreateFeedback;
     update: UpdateFeedback;
     remove: DeleteFeedback;
+    listFeedbacks: ListFeedbacks;
     listStatusesCategories: ListStatusesCategories;
 }
 
@@ -142,7 +144,65 @@ const buildRegisterRoutes = (methods: FeedbacksMethods) => {
 
     /**
        * @openapi
-       * /feedbacks/{id}:
+       * /feedbacks/list:
+       *   get:
+       *     tags: [Feedbacks]
+       *     description: Retrieve a list of feedback items with optional filtering, sorting, and pagination.
+       *     parameters:
+       *       - in: query
+       *         name: category
+       *         required: false
+       *         schema:
+       *           type: string
+       *         description: Filter feedbacks by category ID.
+       *       - in: query
+       *         name: status
+       *         required: false
+       *         schema:
+       *           type: string
+       *         description: Filter feedbacks by status ID.
+       *       - in: query
+       *         name: sortBy
+       *         required: false
+       *         schema:
+       *           type: string
+       *           enum: [created_at, upvotes]
+       *         description: Sort feedbacks by creation date or number of upvotes.
+       *       - in: query
+       *         name: order
+       *         required: false
+       *         schema:
+       *           type: string
+       *           enum: [asc, desc]
+       *         description: Sorting order (ascending or descending).
+       *       - in: query
+       *         name: pageSize
+       *         required: false
+       *         schema:
+       *           type: integer
+       *         description: Number of feedbacks per page.
+       *       - in: query
+       *         name: pageNumber
+       *         required: false
+       *         schema:
+       *           type: integer
+       *         description: Page number to retrieve.
+       *     responses:
+       *       200:
+       *         description: Paginated list of feedback items.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/FeedbackPagination'
+       */
+    namespace.get(
+      '/list',
+      createRouteHandler(methods.listFeedbacks)
+    )
+      
+    /**
+       * @openapi
+       * /feedbacks/list:
        *   get:
        *     tags: [Feedbacks]
        *     description: Get a feedback by ID.
@@ -158,15 +218,12 @@ const buildRegisterRoutes = (methods: FeedbacksMethods) => {
        *         content:
        *           application/json:
        *             schema:
-       *               $ref: '#/components/entities/Feedback'
-       *       404:
-       *         description: Feedback not found.
+       *               $ref: '#/components/schemas/FeedbackPagination'
        */
     namespace.get(
       '/:id',
       createRouteHandler(methods.getById)
     )
-
 
     /**
        * @openapi
@@ -193,10 +250,11 @@ export const buildFeedbackHandler = (params: Params): IHandler => {
   const create = buildCreateFeedback(params)
   const update = buildUpdateFeedback(params)
   const remove = buildDeleteFeedback(params)
-
+  const listFeedbacks = buildListFeedbacks(params)
   return {
     registerRoutes: buildRegisterRoutes(
       {
+        listFeedbacks,
         getById,
         create,
         update,
