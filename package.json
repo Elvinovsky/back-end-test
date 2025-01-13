@@ -5,11 +5,13 @@
   "main": "index.js",
   "license": "ISC",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development dotenv -e .env.development -- nodemon --watch \"./src/**/*\" --watch \"./config/config.yml\" --signal SIGTERM --exec node -r @swc-node/register ./src/app.ts",
+    "docker:up": "docker-compose up --build",
+    "start:dev": "npx prisma generate && cross-env NODE_ENV=development dotenv -e .env.development -- nodemon --watch \"./src/**/*\" --watch \"./config/config.yml\" --signal SIGTERM --exec node -r @swc-node/register ./src/app.ts",
     "start:prod": "cross-env NODE_ENV=production node build/app.js",
     "build:prod": "tsc && npx swc ./src -d build",
     "migrate:dev": "dotenv -e .env.development npx prisma db push",
     "migrate:prod": "npx prisma db push --accept-data-loss",
+    "prisma:seed": "dotenv -e .env.development node prisma/seed.js",
     "test": "jest",
     "lint": "eslint ./src --ext .ts"
   },

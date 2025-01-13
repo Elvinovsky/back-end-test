@@ -1,12 +1,12 @@
 http: 
-  host: localhost
+  host: '0.0.0.0'  # Для Docker контейнера используем '0.0.0.0', для локального запуска localhost
   port: 8000
 
 postgres:
   user: postgres
   password: '123'
   db: dev
-  host: 127.0.0.1
+  host: db_dev # Для Docker контейнера используем имя контейнера как хост, для локального запуска 127.0.0.1
   port: 5432
 
 jwt:
