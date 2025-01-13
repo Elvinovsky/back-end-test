@@ -4,6 +4,7 @@ import { buildUpdate, Update } from './update';
 import { List, buildList } from './list';
 import { buildCreate, Create} from './create'
 import { buildGet, Get} from './get'
+import {buildCount, Count} from '@/adapter/repository/feedback/count';
 
 type Params = Pick<AdapterParams, 'db'>
 
@@ -13,6 +14,7 @@ export type FeedbackRepository = {
     get: Get,
     list: List,
     update: Update,
+    count: Count,
 }
 export const buildFeedbackRepository = (params: Params): FeedbackRepository=>{
   const create = buildCreate(params)
@@ -20,6 +22,7 @@ export const buildFeedbackRepository = (params: Params): FeedbackRepository=>{
   const get = buildGet(params)
   const list = buildList(params)
   const update = buildUpdate(params)
+  const count = buildCount(params)
 
   return {
     create,
@@ -27,5 +30,6 @@ export const buildFeedbackRepository = (params: Params): FeedbackRepository=>{
     get,
     list,
     update,
+    count
   }
 }
