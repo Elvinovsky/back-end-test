@@ -11,6 +11,10 @@ import {
 } from '@/delivery/http/v1/handlers/feedbacks/feedbackValidator';
 import {buildUpdateFeedback, UpdateFeedback} from '@/delivery/http/v1/handlers/feedbacks/updateFeedback';
 import {IHandler} from '@/delivery/http/v1/handlers/types';
+import {
+  buildListStatusesCategories,
+  ListStatusesCategories
+} from '@/delivery/http/v1/handlers/feedbacks/ListStatusesCategories';
 
 type Params = Pick<DeliveryParams, 'feedbacks'>;
 
@@ -19,6 +23,7 @@ export type FeedbacksMethods = {
     create: CreateFeedback;
     update: UpdateFeedback;
     remove: DeleteFeedback;
+    listStatusesCategories: ListStatusesCategories;
 }
 
 const buildRegisterRoutes = (methods: FeedbacksMethods) => {
@@ -162,12 +167,28 @@ const buildRegisterRoutes = (methods: FeedbacksMethods) => {
       createRouteHandler(methods.getById)
     )
 
+
+    /**
+       * @openapi
+       * /feedbacks/reference/options:
+       *   get:
+       *     tags: [Feedbacks]
+       *     description: Get available list category and statuses for feedback.
+       *     responses:
+       *       200
+       */
+    namespace.get(
+      '/references/options',
+      createRouteHandler(methods.listStatusesCategories)
+    )
+
     root.use('/feedbacks', namespace)
   }
 }
 
 
 export const buildFeedbackHandler = (params: Params): IHandler => {
+  const listStatusesCategories = buildListStatusesCategories(params);
   const getById = buildGetFeedback(params)
   const create = buildCreateFeedback(params)
   const update = buildUpdateFeedback(params)
@@ -179,7 +200,8 @@ export const buildFeedbackHandler = (params: Params): IHandler => {
         getById,
         create,
         update,
-        remove
+        remove,
+        listStatusesCategories
       }
     )
   }
