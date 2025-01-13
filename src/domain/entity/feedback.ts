@@ -1,7 +1,6 @@
 import { Feedback } from '@prisma/client';
 
 export interface IFeedback extends Feedback{}
-
 /**
  * @openapi
  * components:
@@ -32,6 +31,10 @@ export interface IFeedback extends Feedback{}
  *           type: string
  *           format: uuid
  *           description: ID of the status associated with this feedback.
+ *         authorId:
+ *           type: string
+ *           format: uuid
+ *           description: ID of the author of the feedback.
  *         created_at:
  *           type: string
  *           format: date-time
@@ -40,6 +43,14 @@ export interface IFeedback extends Feedback{}
  *           type: string
  *           format: date-time
  *           description: Timestamp when the feedback was last updated.
+ *         upvote_count:
+ *           type: integer
+ *           description: The total number of upvotes for this feedback.
+ *         upvotes:
+ *           type: array
+ *           description: List of upvotes associated with this feedback.
+ *           items:
+ *             $ref: '#/components/schemas/Upvote'
  */
 
 export interface IFeedbackPagination {

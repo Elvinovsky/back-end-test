@@ -224,15 +224,31 @@ const buildRegisterRoutes = (methods: FeedbacksMethods) => {
       '/:id',
       createRouteHandler(methods.getById)
     )
-
+      
     /**
        * @openapi
        * /feedbacks/reference/options:
        *   get:
        *     tags: [Feedbacks]
-       *     description: Get available list category and statuses for feedback.
+       *     description: Get available list of categories and statuses for feedback.
        *     responses:
-       *       200
+       *       200:
+       *         description: Successfully retrieved list of categories and statuses.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               type: object
+       *               properties:
+       *                 statuses:
+       *                   type: array
+       *                   items:
+       *                     $ref: '#/components/entities/Status'
+       *                   description: List of available statuses for feedback.
+       *                 categories:
+       *                   type: array
+       *                   items:
+       *                     $ref: '#/components/entities/Category'
+       *                   description: List of available categories for feedback.
        */
     namespace.get(
       '/references/options',
