@@ -41,3 +41,42 @@ export interface IFeedback extends Feedback{}
  *           format: date-time
  *           description: Timestamp when the feedback was last updated.
  */
+
+export interface IFeedbackPagination {
+    pagesCount: number;
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    items: IFeedback[];
+}
+
+/**@openapi
+ * components:
+ *   schemas:
+ *     FeedbackPagination:
+ *       description: Paginated list of feedback items.
+ *       required:
+ *         - pagesCount
+ *         - page
+ *         - pageSize
+ *         - totalCount
+ *         - items
+ *       properties:
+ *         pagesCount:
+ *           type: integer
+ *           description: Total number of pages available.
+ *         page:
+ *           type: integer
+ *           description: Current page number.
+ *         pageSize:
+ *           type: integer
+ *           description: Number of items per page.
+ *         totalCount:
+ *           type: integer
+ *           description: Total number of feedback items.
+ *         items:
+ *           type: array
+ *           description: List of feedback items.
+ *           items:
+ *             $ref: '#/components/entities/Feedback'
+ */
